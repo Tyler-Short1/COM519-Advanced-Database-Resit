@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongoose = require("mongoose");
 const { MongoClient } = require('mongodb');
 
 // Middleware
@@ -13,12 +12,12 @@ app.use(bodyParser.json());
 
 // MongoDB driver setup
 const ObjectId = require('mongodb').ObjectId;
-const url = 'mongodb+srv://admin:admin123@cluster0.h6hkh9t.mongodb.net/workoutDB'
-// const url = 'mongodb+srv://admin:admin123@cluster0.h6hkh9t.mongodb.net/?retryWrites=true&w=majority'
+// const uri = 'mongodb+srv://admin:admin123@cluster0.h6hkh9t.mongodb.net/workoutDB'
+const uri = 'mongodb+srv://admin:admin123@cluster0.h6hkh9t.mongodb.net/?retryWrites=true&w=majority'
 const dbName = 'workoutDB';
 
 // Connect to MongoDB server and establish a database connection
-const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect()
     .then(() => {
@@ -34,9 +33,11 @@ client.connect()
             const collection = db.collection('workouts');
             collection.insertOne(workout, (err, result) => {
                 if (err) {
+                    console.error('Error creating workout:', err);
                     res.status(500).send('Error creating workout:', err);
                     return;
                 }
+                console.log('Workout created successfully');
                 res.status(201).send('Workout created successfully');
             });
         });
@@ -49,9 +50,22 @@ client.connect()
                     res.status(500).send('Error retrieving workouts:', err);
                     return;
                 }
+                console.log('Request received for /workouts');
                 res.json(workouts);
             });
         });
+
+
+        // app.get("/workouts", (req, res) => {
+            //const collection = db.collection('workouts');
+            //collection.find()
+                //.then(workouts => {
+                    //res.json(workouts);
+                //})
+                //.catch(error => {
+                    //res.status(500).json({ message: error.message });
+               // });
+        //});
 
         // Update a workout
         app.put('/workouts/:id', (req, res) => {
@@ -73,6 +87,7 @@ client.connect()
             });
         });
 
+
         // Delete a workout
         app.delete('/workouts/:id', (req, res) => {
             const workoutId = req.params.id;
@@ -89,7 +104,7 @@ client.connect()
 
         // Start the server
         const port = 3002;
-        app.listen(port, '0.0.0.0', () => {
+        app.listen(port, '192.168.0.15', () => {
             console.log(`Server is running on port ${port}`);
         });
     })

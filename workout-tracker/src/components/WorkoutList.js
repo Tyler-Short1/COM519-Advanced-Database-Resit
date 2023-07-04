@@ -8,6 +8,7 @@ const WorkoutList = () => {
     useEffect(() => {
         axios.get('http://192.168.0.15:3002/workouts')
             .then((response) => {
+                console.log(response.data); // Check the response data
                 setWorkouts(response.data);
             })
             .catch((error) => {
@@ -16,20 +17,25 @@ const WorkoutList = () => {
             });
     }, []);
 
-    console.log(workouts); // Log the response data
-
     const handleDelete = (workoutId) => {
         // Delete the workout from the server
         axios.delete(`/workouts/${workoutId}`)
             .then(() => {
-                // Filter out the deleted workout from the list
-                const updatedWorkouts = workouts.filter((workout) => workout._id !== workoutId);
-                setWorkouts(updatedWorkouts);
+                // Fetch the updated list of workouts
+                axios.get('http://192.168.0.15:3002/workouts')
+                    .then((response) => {
+                        setWorkouts(response.data);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching workouts:', error);
+                        // Handle error case
+                    });
             })
             .catch((error) => {
                 console.error('Error deleting workout:', error);
             });
     };
+
 
     return (
         <div>
