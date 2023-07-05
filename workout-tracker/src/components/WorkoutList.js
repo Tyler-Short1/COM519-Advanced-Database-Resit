@@ -6,7 +6,7 @@ const WorkoutList = () => {
     const [workouts, setWorkouts] = useState([]);
 
     useEffect(() => {
-        axios.get('http://192.168.0.15:3002/workouts')
+        axios.get('http://192.168.0.10:3002/workouts')
             .then((response) => {
                 console.log(response.data); // Check the response data
                 setWorkouts(response.data);
@@ -22,7 +22,7 @@ const WorkoutList = () => {
         axios.delete(`/workouts/${workoutId}`)
             .then(() => {
                 // Fetch the updated list of workouts
-                axios.get('http://192.168.0.15:3002/workouts')
+                axios.get('http://192.168.0.10:3002/workouts')
                     .then((response) => {
                         setWorkouts(response.data);
                     })

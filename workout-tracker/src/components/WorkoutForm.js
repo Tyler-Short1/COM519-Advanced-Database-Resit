@@ -21,7 +21,7 @@ function WorkoutForm() {
             date: date
         };
 
-        axios.post('http://192.168.0.15:3002/workouts', workout, {
+        axios.post('http://192.168.0.10:3002/workouts', workout, {
             headers: {
                 'Content-Type': 'application/json',
             },
