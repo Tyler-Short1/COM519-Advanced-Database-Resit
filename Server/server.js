@@ -103,7 +103,7 @@ client.connect()
         });
 
         // Start the server
-        const port = 3002;
+        const port = 3000;
         app.listen(port, '192.168.0.10', () => {
             console.log(`Server is running on port ${port}`);
         });
