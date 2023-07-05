@@ -8,6 +8,6 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node D:\\Advanced Database Repo\\Server"
+    "start": "node server.js"
   }
 }
