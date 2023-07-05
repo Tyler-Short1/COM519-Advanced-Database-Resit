@@ -7,7 +7,7 @@
     "mongoose": "^7.3.1"
   },
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "dev": "nodemon server.js",
+    "start": "node D:\\Advanced Database Repo\\Server"
   }
 }
